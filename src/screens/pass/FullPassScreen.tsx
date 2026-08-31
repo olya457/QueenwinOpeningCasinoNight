@@ -6,7 +6,7 @@ import {colors} from '../../constants/theme';
 
 export function FullPassScreen({navigation}: any) {
   return (
-    <BackgroundScreen image={images.loaderBackground}>
+    <BackgroundScreen image={images.loaderBackground} contentContainerStyle={styles.content}>
       <Card style={styles.notice}>
         <Text style={styles.noticeText}>Your app welcome reward is ready to use during direct hotel booking.</Text>
       </Card>
@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(19,68,55,0.54)',
     borderColor: 'rgba(44,245,155,0.24)',
   },
+  content: {
+    paddingBottom: 188,
+  },
   noticeText: {
     color: colors.accent,
     textAlign: 'center',
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(40,24,66,0.94)',
     borderColor: 'rgba(126,89,255,0.32)',
     gap: 16,
+    marginBottom: 18,
   },
   brand: {
     color: colors.muted,
@@ -144,5 +148,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     gap: 12,
+    marginTop: 6,
+    marginBottom: 24,
   },
 });

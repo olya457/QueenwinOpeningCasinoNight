@@ -43,7 +43,7 @@ export function PassHomeScreen({navigation}: any) {
           {[
             ['6:00 PM', 'Welcome Cocktail Reception', 'Lobby Lounge'],
             ['7:00 PM', 'Grand Opening Ceremony', 'Grand Ballroom'],
-            ['9:00 PM', 'Casino Floor Opening', 'Main Casino'],
+            ['9:00 PM', 'Main Event Opening', 'Main Hall'],
             ['12:00 AM', 'Midnight Champagne Toast', 'Grand Ballroom'],
           ].map(item => (
             <View key={item[0]} style={styles.scheduleRow}>

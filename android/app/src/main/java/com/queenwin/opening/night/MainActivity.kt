@@ -1,4 +1,4 @@
-package com.queenwinopeningcasinonight
+package com.queenwin.opening.night
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   switcher: {
     flexDirection: 'row',
     gap: 10,
+    marginBottom: 18,
   },
   serviceIcon: {
     fontSize: 18,

@@ -12,7 +12,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colors} from '../constants/theme';
 
 export function BackgroundScreen({
@@ -27,9 +27,12 @@ export function BackgroundScreen({
   image?: any;
 }) {
   const {height} = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(18)).current;
   const compact = height < 760;
+  const tabBarOffset = compact ? 126 : 150;
+  const scrollBottomPadding = tabBarOffset + Math.max(insets.bottom - 10, 0);
 
   useEffect(() => {
     Animated.parallel([
@@ -48,7 +51,12 @@ export function BackgroundScreen({
 
   const content = scrollable ? (
     <ScrollView
-      contentContainerStyle={[styles.scrollContent, compact && styles.scrollContentCompact, contentContainerStyle]}
+      contentContainerStyle={[
+        styles.scrollContent,
+        compact && styles.scrollContentCompact,
+        {paddingBottom: scrollBottomPadding},
+        contentContainerStyle,
+      ]}
       showsVerticalScrollIndicator={false}>
       <Animated.View style={{opacity, transform: [{translateY}]}}>
         {children}
