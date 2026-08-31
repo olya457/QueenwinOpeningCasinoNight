@@ -1,4 +1,4 @@
-package com.queenwin.opening.night
+package com.welcomenightpass
 
 import android.app.Application
 import com.facebook.react.PackageList

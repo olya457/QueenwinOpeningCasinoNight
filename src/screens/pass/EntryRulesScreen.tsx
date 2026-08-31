@@ -17,7 +17,7 @@ const rules = [
 export function EntryRulesScreen() {
   return (
     <BackgroundScreen image={images.loaderBackground}>
-      <Text style={styles.subtitle}>Please review these guidelines before your arrival at Queenwin Opening Night.</Text>
+      <Text style={styles.subtitle}>Please review these guidelines before your arrival for Welcome Night Pass.</Text>
       {rules.map((rule, index) => (
         <Card key={rule}>
           <View style={styles.ruleRow}>

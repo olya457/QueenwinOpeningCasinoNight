@@ -12,7 +12,7 @@ export function FullPassScreen({navigation}: any) {
       </Card>
       <Card style={styles.promoCard}>
         <Text style={styles.brand}>QUEENWIN</Text>
-        <Text style={styles.title}>Hotel Welcome Promo</Text>
+        <Text style={styles.title}>Welcome Night Pass</Text>
         <Text style={styles.discount}>10% OFF</Text>
         <Text style={styles.description}>
           Thank you for downloading the Queenwin app. You have unlocked a special accommodation discount for your hotel stay.

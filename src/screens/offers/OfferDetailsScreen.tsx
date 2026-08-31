@@ -15,7 +15,7 @@ export function OfferDetailsScreen({route}: any) {
   const saved = savedOfferIds.includes(offer.id);
 
   return (
-    <BackgroundScreen scrollable={false}>
+    <BackgroundScreen>
       <Image source={offer.image} style={styles.image} />
       <View style={styles.content}>
         <View style={styles.headerRow}>

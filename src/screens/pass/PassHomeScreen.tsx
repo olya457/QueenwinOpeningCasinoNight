@@ -10,13 +10,13 @@ export function PassHomeScreen({navigation}: any) {
   return (
     <>
       <BackgroundScreen image={images.loaderBackground}>
-        <SectionTitle eyebrow="OPENING NIGHT" title="Welcome Access" />
+        <SectionTitle eyebrow="OPENING NIGHT" title="Welcome Night Pass" />
         <Card style={styles.heroCard}>
           <View style={styles.badges}>
             <View style={styles.goldBadge}><Text style={styles.goldBadgeText}>App Welcome Benefit</Text></View>
             <View style={styles.activeBadge}><Text style={styles.activeBadgeText}>Available</Text></View>
           </View>
-          <Text style={styles.heroTitle}>Queenwin Opening Night</Text>
+          <Text style={styles.heroTitle}>Welcome Night Pass</Text>
           <Text style={styles.heroText}>
             Install the app and unlock a special welcome reward for your future hotel stay, plus quick access to events, services, menu, parking, and offers.
           </Text>

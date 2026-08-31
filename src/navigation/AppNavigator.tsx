@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: Math.min(Dimensions.get('window').width - 32, 360),
     justifyContent: 'space-between',
-    backgroundColor: 'rgba(10,15,28,0.96)',
+    backgroundColor: '#000000',
     borderRadius: 28,
     borderWidth: 1,
     borderColor: 'rgba(120,140,172,0.18)',

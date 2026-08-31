@@ -4,7 +4,7 @@ export const onboardingSlides = [
   {
     id: 'welcome',
     eyebrow: 'WELCOME',
-    title: 'Welcome to\nQueenwin',
+    title: 'Welcome\nNight Pass',
     description:
       'Your digital guide to the first Queenwin venue opening, with events, dining, guest services, parking, and exclusive offers in one place.',
     image: images.onboardingExperience,
