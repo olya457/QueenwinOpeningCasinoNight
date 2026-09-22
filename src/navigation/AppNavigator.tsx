@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Animated, Dimensions, Image, ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -24,27 +24,74 @@ const ServicesStack = createNativeStackNavigator();
 const OffersStack = createNativeStackNavigator();
 
 function SplashScreen({onDone}: {onDone: () => void}) {
+  const startedAt = useRef(Date.now()).current;
+  const progress = useRef(new Animated.Value(0.08)).current;
+  const [webviewReady, setWebviewReady] = useState(false);
+  const [layout, setLayout] = useState(Dimensions.get('window'));
+  const background = Image.resolveAssetSource(images.loaderBackground);
+  const imageHeight = background.height * Math.max(layout.width / background.width, layout.height / background.height);
+  // Follow the subtitle in the artwork, including the crop from resizeMode="cover".
+  const loaderTop = (layout.height - imageHeight) / 2 + imageHeight * 0.56 + 20;
+
+  useEffect(() => {
+    const animation = Animated.timing(progress, {
+      toValue: 1,
+      duration: 4000,
+      useNativeDriver: false,
+    });
+    animation.start();
+    return () => animation.stop();
+  }, [progress]);
+
   useEffect(() => {
     const timer = setTimeout(onDone, 5000);
     return () => clearTimeout(timer);
   }, [onDone]);
 
   return (
-    <ImageBackground source={images.loaderBackground} resizeMode="cover" style={styles.splashScreen}>
-      <View style={styles.splashContent}>
+    <ImageBackground
+      source={images.loaderBackground}
+      resizeMode="cover"
+      style={styles.splashScreen}
+      onLayout={({nativeEvent}) => setLayout(previous => ({...previous, ...nativeEvent.layout}))}>
+      <View pointerEvents="none" style={[styles.splashContent, {top: loaderTop}]}>
         <View style={styles.webviewWrap}>
+          {!webviewReady && (
+            <View style={styles.loaderTrack}>
+              <Animated.View style={[styles.loaderFill, {width: progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0%', '100%'],
+              })}]} />
+            </View>
+          )}
           <WebView
             originWhitelist={['*']}
             scrollEnabled={false}
+            bounces={false}
+            overScrollMode="never"
+            onMessage={({nativeEvent}) => {
+              if (nativeEvent.data === 'loader-ready') {
+                setWebviewReady(true);
+              }
+            }}
             source={{
-              html: `<html><body style="margin:0;background:transparent;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;">
-              <div style="width:180px;height:46px;border-radius:999px;border:1px solid rgba(44,245,155,.28);position:relative;overflow:hidden;background:rgba(255,255,255,.03)">
-                <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(44,245,155,.9),transparent);animation:slide 1.2s linear infinite"></div>
-                <div style="position:absolute;left:16px;right:16px;top:22px;height:2px;background:rgba(44,245,155,.25)"></div>
-              </div>
-              <style>@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}</style>
+              html: `<!DOCTYPE html><html><head>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+                <style>
+                  html,body{margin:0;width:100%;height:100%;background:transparent;overflow:hidden}
+                  body{display:flex;align-items:center;justify-content:center}
+                  .track{width:100%;height:5px;border-radius:999px;overflow:hidden;background:rgba(44,245,155,.3)}
+                  .fill{width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#169b72,#2cf59b);transform:scaleX(.08);transform-origin:left;animation:fill 4s linear forwards}
+                  @keyframes fill{to{transform:scaleX(1)}}
+                </style>
+              </head><body><div class="track"><div class="fill"></div></div>
+                <script>
+                  document.querySelector('.fill').style.animationDelay = '-' + Math.max(0, Date.now() - ${startedAt}) + 'ms';
+                  requestAnimationFrame(function(){requestAnimationFrame(function(){window.ReactNativeWebView.postMessage('loader-ready');});});
+                </script>
               </body></html>`,
             }}
+            containerStyle={[styles.webviewContainer, {opacity: webviewReady ? 1 : 0}]}
             style={styles.webview}
           />
         </View>
@@ -188,20 +235,47 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   splashContent: {
-    flex: 1,
+    position: 'absolute',
+    left: 0,
+    right: 0,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 84,
   },
   webviewWrap: {
     width: 220,
-    height: 60,
-    borderRadius: 18,
+    maxWidth: '70%',
+    height: 16,
     overflow: 'hidden',
     backgroundColor: 'transparent',
   },
   webview: {
+    flex: 0,
+    width: '100%',
+    height: 16,
     backgroundColor: 'transparent',
+  },
+  webviewContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flex: 0,
+    backgroundColor: 'transparent',
+  },
+  loaderTrack: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 5.5,
+    height: 5,
+    borderRadius: 999,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(44,245,155,.3)',
+  },
+  loaderFill: {
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: '#2cf59b',
   },
   tabShell: {
     position: 'absolute',

@@ -1,5 +1,5 @@
 export const images = {
-  loaderBackground: require('./branding/loader-background.png'),
+  loaderBackground: require('./branding/loader-background-large-logo.png'),
   onboardingWelcome: require('./onboarding/onboarding-welcome.png'),
   onboardingExperience: require('./onboarding/onboarding-experience.png'),
   menu: {
